@@ -31,7 +31,8 @@
 <body>
     <div class="container">
         <h1>Image Preview</h1>
-        <img src="[https://drive.google.com/uc?export=view&id=YOUR_FILE_ID](https://drive.google.com/file/d/1-UCfE2wo-EMZigrXRMuElrrvVJ4TNxcQ/view)" alt="Google Drive Image">
+        <!-- Replace YOUR_FILE_ID with your actual file ID from Google Drive -->
+        <img src="https://drive.google.com/uc?export=view&id=YOUR_FILE_ID" alt="Google Drive Image">
     </div>
 </body>
 </html>

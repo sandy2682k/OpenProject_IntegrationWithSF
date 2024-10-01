@@ -29,10 +29,11 @@ export default class OpenProjectDataTable extends LightningElement {
     @track objDisabled = {
         "descDisabled" : true,
         "projectDisabled" : true
-    }
+    };
 
     currentPage = 1;
     pageSize = 3;
+    totalPages = 0;
 
     connectedCallback() {
         console.log('Component initialized');
@@ -46,6 +47,7 @@ export default class OpenProjectDataTable extends LightningElement {
             .then(result => {
                 this.projectList = result;
                 this.totalRecords = result.length;
+                this.totalPages = Math.ceil(this.totalRecords / this.pageSize);
                 this.paginateData();
                 this.isLoading = false;
             })
@@ -69,7 +71,7 @@ export default class OpenProjectDataTable extends LightningElement {
     }
 
     handleNext() {
-        if (this.currentPage < Math.ceil(this.totalRecords / this.pageSize)) {
+        if (this.currentPage < this.totalPages) {
             this.currentPage++;
             this.paginateData();
         }
@@ -81,8 +83,8 @@ export default class OpenProjectDataTable extends LightningElement {
         if (actionName === 'view_details') {
             this.selectedRecord = { ...row };  // Clone the selected record for editing
             this.isModalOpen = true;  // Open modal popup
-            this.doubleClickCount = 0;  // Reset double-click count when a new record is selected
-            this.isDisabled = true;  // Disable fields initially
+            this.objDisabled.descDisabled = true;
+            this.objDisabled.projectDisabled = true;
         }
     }
 
@@ -104,8 +106,6 @@ export default class OpenProjectDataTable extends LightningElement {
         this.objDisabled.descDisabled = true;
         this.objDisabled.projectDisabled = true;
         this.isModalOpen = false;  // Close modal popup
-        this.doubleClickCount = 0;  // Reset double-click count when modal is closed
-        this.isDisabled = true;  // Disable fields when modal is closed
     }
 
     saveChanges() {
@@ -138,6 +138,6 @@ export default class OpenProjectDataTable extends LightningElement {
     }
 
     get disableNext() {
-        return this.currentPage >= Math.ceil(this.totalRecords / this.pageSize);
+        return this.currentPage === this.totalPages;
     }
 }
